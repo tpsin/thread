@@ -1,7 +1,7 @@
 /*
  * Concurrent access to shared variables
  */
-package concurrent;
+package concurrentaccess;
 
 import java.util.logging.Level;
 import java.util.logging.Logger;
@@ -37,8 +37,14 @@ public class ConcurrentAccess {
         Thread thread2 = new Thread(new MyThread());
         thread2.start();
         
-        while(thread1.isAlive()||thread2.isAlive()){}
-          
+        // while(thread1.isAlive() || thread2.isAlive()){}
+        try {
+            thread1.join();
+            thread2.join();
+        } catch (InterruptedException ex) {
+            Logger.getLogger(ConcurrentAccess2.class.getName()).log(Level.SEVERE, null, ex);
+        }
+        
         System.out.println("Counter : " + counter);
         
     }

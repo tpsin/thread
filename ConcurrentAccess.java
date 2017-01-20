@@ -42,7 +42,7 @@ public class ConcurrentAccess {
             thread1.join();
             thread2.join();
         } catch (InterruptedException ex) {
-            Logger.getLogger(ConcurrentAccess2.class.getName()).log(Level.SEVERE, null, ex);
+            Logger.getLogger(ConcurrentAccess.class.getName()).log(Level.SEVERE, null, ex);
         }
         
         System.out.println("Counter : " + counter);

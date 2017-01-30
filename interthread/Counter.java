@@ -13,13 +13,24 @@ package interthread;
 class Counter {
 
     int num;
-    
-    public void put (int i) {
+    boolean isSet = false;
+
+    public synchronized void put (int i) {
+        while(isSet) {
+            try { wait(); } catch (Exception e) {}
+        }
         this.num = i;
+        isSet = true;
         System.out.println("put: " + this.num);
+        notify();
     }
-    
-    public void get () {
+
+    public synchronized void get () {
+        while(!isSet) {
+            try { wait(); } catch (Exception e) {}
+        }
         System.out.println("get: " + this.num);
+        isSet = false;
+        notify();
     }
 }

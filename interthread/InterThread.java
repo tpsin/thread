@@ -16,9 +16,9 @@ public class InterThread {
      * @param args the command line arguments
      */
     public static void main(String[] args) {
-        Counter counter = new Counter();
-        new Producer(counter);
-        new Consumer(counter);
+        Shared shared = new Shared();
+        new Producer(shared);
+        new Consumer(shared);
     }
     
 }

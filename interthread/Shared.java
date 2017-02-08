@@ -10,7 +10,7 @@ package interthread;
  * @author antonio
  */
 
-class Counter {
+class Shared {
 
     int num;
     boolean isSet = false;

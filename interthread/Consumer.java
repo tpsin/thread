@@ -11,9 +11,9 @@ package interthread;
  */
 class Consumer implements Runnable {
 
-    Counter c;
+    Shared c;
 
-    public Consumer(Counter c) {
+    public Consumer(Shared c) {
         this.c = c;
         Thread thread = new Thread(this, "consumer");
         thread.start();

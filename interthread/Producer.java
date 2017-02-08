@@ -11,9 +11,9 @@ package interthread;
  */
 class Producer implements Runnable {
     
-    Counter c;
+    Shared c;
 
-    public Producer(Counter c) {
+    public Producer(Shared c) {
         this.c = c;
         Thread thread = new Thread(this, "producer");
         thread.start();

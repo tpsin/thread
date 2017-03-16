@@ -1,7 +1,5 @@
 public class DaemonThread {
     
-    static Integer n = 1;
-    
     public static void main(String[] args) throws InterruptedException {
         
         Thread t = new Thread(() -> {

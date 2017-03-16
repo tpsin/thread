@@ -1,26 +1,18 @@
-import java.util.Random;
-import java.util.stream.IntStream;
-
 public class DaemonThread {
-
-    /**
-     * @param args the command line arguments
-     */
-    public static void main(String[] args) {
-
-        Runnable r = () -> {
-            int end = new Random().nextInt(10);
-            System.out.println(Thread.currentThread().getName() + " has end = " + end);
-            IntStream.range(0, end).forEach(i -> {
-                try {Thread.sleep(100);} catch (Exception e){}
-                System.out.println(Thread.currentThread().getName() + " is running: " + i);
-            });
-            System.out.println(Thread.currentThread().getName() + " is terminated");
-        };
-
-        Thread t1 = new Thread(r);
-        t1.setDaemon(true);
-        t1.start();
-        new Thread(r).run();
+    
+    static Integer n = 1;
+    
+    public static void main(String[] args) throws InterruptedException {
+        
+        Thread t = new Thread(() -> {
+            for (int i = 0; i < 10; i++) {
+                try{Thread.sleep(100);} catch (Exception e) {}
+                System.out.println("Hello" + i);
+            }
+        });
+        t.setDaemon(true);
+        t.start();
+        Thread.sleep(400);
+        return;
     }
 }

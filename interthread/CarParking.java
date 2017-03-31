@@ -1,25 +1,25 @@
 import java.util.Random;
 
 class Car extends Thread {
-    
-    Parking parking = new Parking();
-    
+
+    Parking parking;
+
     Car(Parking parking) {
         this.parking = parking;
         this.start();
     }
 
     public void run() {
-        this.parking.enter(this);
-        try {Thread.sleep(new Random().nextInt(20_000));} catch (Exception ex) {}
-        this.parking.exit(this);
+        this.parking.checkIn(this);
+        try {Thread.sleep(new Random().nextInt(30_000));} catch (Exception ex) {}
+        this.parking.checkOut(this);
     }
 }
 
 class Parking {
     Integer vacancies = new Integer(10);
-    
-    synchronized void enter (Car c) {
+
+    synchronized void checkIn (Car c) {
         while(vacancies < 1) {
             try {wait();} catch (Exception ex) {}
         }
@@ -28,19 +28,32 @@ class Parking {
             System.out.println("Car " + c.getName() + " is entering");
         }
     }
-    
-    synchronized void exit(Car c) {
+
+    synchronized void checkOut(Car c) {
         System.out.println("Car " + c.getName() + " is exting");
         vacancies ++;
         notifyAll();
-    } 
+    }
+
+    void showVacancies () {
+        System.out.println("*** Parking vacancies are: " +  this.vacancies + " ***");
+    }
 }
 
 public class CarParking {
-    
-    public static void main(String[] args) {
+
+    public static void main(String[] args) throws Exception{
         Parking parking = new Parking();
-        for (int i = 0; i < 50; i++) {
+        Runnable r1 = () -> {
+            while(true) {
+                parking.showVacancies();
+                try{Thread.sleep(5000);} catch (Exception e) {}
+            }
+        };
+
+        new Thread(r1).start();
+        for (int i = 0; i < 30; i++) {
+            Thread.sleep(new Random().nextInt(2000));
             new Car(parking);
         }
     }

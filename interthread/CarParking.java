@@ -17,7 +17,12 @@ class Car extends Thread {
 }
 
 class Parking {
-    Integer vacancies = new Integer(10);
+
+    Integer vacancies;
+
+    Parking(Integer vacancies) {
+        this.vacancies = vacancies;
+    }
 
     synchronized void checkIn (Car c) {
         while(vacancies < 1) {
@@ -43,15 +48,16 @@ class Parking {
 public class CarParking {
 
     public static void main(String[] args) throws Exception{
-        Parking parking = new Parking();
-        Runnable r1 = () -> {
+
+        Parking parking = new Parking(10);
+
+        new Thread(() -> {
             while(true) {
                 parking.showVacancies();
                 try{Thread.sleep(5000);} catch (Exception e) {}
             }
-        };
+        }).start();
 
-        new Thread(r1).start();
         for (int i = 0; i < 30; i++) {
             Thread.sleep(new Random().nextInt(2000));
             new Car(parking);
